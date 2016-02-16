@@ -12,19 +12,19 @@ public class DragGizmo : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
-
+        camera = GameObject.Find("Main Camera").GetComponent<Camera>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
         RaycastHit hit = new RaycastHit();
 
         if (Input.GetMouseButton(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Debug.Log(ray);
             if (Physics.Raycast(ray, out hit))
             {
                 if (hit.collider.gameObject.name == this.gameObject.name)
@@ -40,10 +40,11 @@ public class DragGizmo : MonoBehaviour
                     p = camera.ScreenToWorldPoint(Input.mousePosition);
                     this.transform.position = new Vector3(p.x, p.y, this.transform.position.z);
                 }
-                Debug.Log(p);
+                
             }
+            
         }
-
+        
         else if (this.gameObject.tag == "Cube")
         {
             this.GetComponent<Renderer>().material.color = Cube;
@@ -53,5 +54,15 @@ public class DragGizmo : MonoBehaviour
         {
             this.GetComponent<Renderer>().material.color = Sphere;
         }
+        
     }
+
+    /*
+    void OnCollisionEnter(Collision col)
+    {
+        ContactPoint contact = col.contacts[0];
+        this.gameObject.transform.Translate(contact.point);
+    }
+    */
+    
 }
